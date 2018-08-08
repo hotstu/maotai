@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+    compileOptions {
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
+    }
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    implementation "com.google.code.gson:gson:${GSON_VERSION}"
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+
+    api "gitbub.hotstu.naiue:lib:0.0.1"
+    api "gitbub.hotstu.labo:labo-jsbridge:0.0.1"
+    api "gitbub.hotstu.labo:labo-rxfetch:0.0.1"
+}
+
+apply from: "../deployBintray.gradle"
+apply from: "../deployLocalMaven.gradle"

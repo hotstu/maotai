@@ -1,0 +1,86 @@
+<!--
+  ~ Copyright (c) 2018 hglf
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>helloworl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no, email=no" />
+</head>
+
+<body style="background-color: aquamarine">
+
+  <h1>hello,world</h1>
+  <input type="button" value="testOpenWin" onclick="test1()">
+  <input type="button" value="testAsync" onclick="test2()">
+  <input type="button" value="---" onclick="test3()">
+  <input type="button" value="closeWin" onclick="test4()">
+  <div id="msg"></div>
+  <script src="./page.js"></script>
+  <script src="./plugin.js"></script>
+  <script>
+    function test1() {
+      JsBridge.openWin({
+        name: "page2",
+        url: "wgt:///page2.html",
+        pageParam: {
+          title: "hello from page1"
+        }
+      }, function (ret) {
+        console.log(JSON.stringify(ret));
+      })
+    }
+
+    function test2() {
+      JsBridge.testAsync({}, function (ret) {
+        JsBridge.toast({
+          msg: ret.values.content
+        })
+        console.log(JSON.stringify(ret) + window.location);
+      })
+    }
+    function test3() {
+
+    }
+    function test4() {
+      JsBridge.closeWin({
+        name: "root"
+      }, function (ret) {
+        console.log(JSON.stringify(ret));
+      })
+    }
+
+    JsBridge.init(function () {
+      console.log("init!!")
+      var $ = document.querySelectorAll.bind(document);
+      var $$ = document.querySelector.bind(document);
+      var statusBarHeight = JsBridge.statusBarHeight()
+      $$("#msg").innerText = "clientWidth:" + document.documentElement.clientWidth + "\n"
+        + "clientHeight:" + document.documentElement.clientHeight + "\n"
+        + "devicePixelRatio:" + window.devicePixelRatio + "\n"
+        + "userAgent:" + window.navigator.userAgent + "\n"
+        + "statusBarHeight: " + statusBarHeight
+      $$("h1").style.marginTop = statusBarHeight
+    })
+
+  </script>
+</body>
+
+</html>

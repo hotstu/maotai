@@ -1,0 +1,122 @@
+<!--
+  ~ Copyright (c) 2018 hglf
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>helloworl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no, email=no" />
+  <style>
+    body {
+      border: 0;
+      margin: 0;
+    }
+
+    #frame {
+      position: relative;
+      top: 50px;
+      height: 200px;
+      width: 100%;
+      background-color: coral;
+    }
+  </style>
+</head>
+
+<body style="background-color: aquamarine">
+
+  <h1>page2</h1>
+  <input type="button" value="testOpenFrame" onclick="test1()">
+  <input type="button" value="closeWinRoot" onclick="test4()">
+  <input type="button" value="closeWinCurrent" onclick="test5()">
+  <input type="button" value="closeFrame1" onclick="closeFrame1()">
+  <input type="button" value="toggleBackPressListening" onclick="toggleBackPressListening()">
+  <input type="button" value="sendCutomEvent" onclick="sendCutomEvent()">
+
+  <div id="msg"></div>
+  <div id="frame">frame</div>
+  <script src="./page.js"></script>
+  <script src="./plugin.js"></script>
+  <script>
+    function test1() {
+      JsBridge.openFrameByElement($$("#frame"), {
+        name: "frame1",
+        url: "wgt:///frame1.html",
+        pageParam: {
+          title: "hello from page2"
+        }
+      })
+    }
+    function test4() {
+      JsBridge.closeWin({
+        name: "root"
+      }, function (ret) {
+        console.log(JSON.stringify(ret));
+      })
+    }
+    function test5() {
+      JsBridge.closeWin({
+        name: "page2"
+      }, function (ret) {
+        console.log(JSON.stringify(ret));
+      })
+    }
+
+    function closeFrame1() {
+      JsBridge.closeFrame({
+        name: "frame1"
+      })
+    }
+    function toggleBackPressListening() {
+      var listening = JsBridge.isListening({
+        name: JsBridge.BUILDIN_EVENTS.BACKPRESS
+      })
+      if (listening.result) {
+        JsBridge.removeEventListener({
+          name: JsBridge.BUILDIN_EVENTS.BACKPRESS
+        })
+      } else {
+        JsBridge.addEventListener({
+          name: JsBridge.BUILDIN_EVENTS.BACKPRESS
+        }, function() {
+          JsBridge.toast({
+            msg: "back clicked"
+          })
+        })
+      }
+    }
+
+    function sendCutomEvent() {
+      JsBridge.sendEvent({
+        name: "customEvent",
+        extra: {
+          msg: "event from page2"
+        }
+      })
+    }
+    var $ = document.querySelectorAll.bind(document);
+    var $$ = document.querySelector.bind(document);
+    JsBridge.init(function () {
+
+    })
+
+  </script>
+</body>
+
+</html>

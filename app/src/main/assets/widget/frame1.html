@@ -1,0 +1,112 @@
+<!--
+  ~ Copyright (c) 2018 hglf
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>helloworl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <style>
+        body {
+            border: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body style="background-color: sienna">
+
+    <h1>frame1</h1>
+    <div id="msg"></div>
+    <input type="button" value="closeFrame1" onclick="closeFrame1()">
+    <input type="button" value="toggleCutomEventListening" onclick="toggleCutomEventListening()">
+    <input type="button" value="execScriptInPage2" onclick="execScriptInPage2()">
+    <input type="button" value="testConfirm" onclick="testConfirm()">
+    <input type="button" value="testPrompt" onclick="testPrompt()">
+    <input type="button" value="getPageParam" onclick="getPageParam()">
+    <input type="button" value="requestNetwork" onclick="requestNetwork()">
+    <input type="file" name="file" id="file">
+    <a href="http://www.baidu.com">百度</a>
+    <script src="./page.js"></script>
+    <script src="./plugin.js"></script>
+    <script src="./zepto.js"></script>
+    <script>
+        function closeFrame1() {
+            JsBridge.closeFrame({
+            })
+        }
+        function execScriptInPage2() {
+            JsBridge.execScript({
+                winName:"page2",
+                script: "alert(1)"
+            })
+        }
+        function testConfirm() {
+           var ret = window.confirm("Press a button!");
+           console.log(ret)
+        }
+        function testPrompt() {
+           var ret = window.prompt("please input","default value");
+           console.log(ret)
+        }
+        function getPageParam() {
+           var ret = JsBridge.getPageParam({
+               frameName:"frame1"
+           })
+           console.log(ret)
+           JsBridge.toast({
+               msg: JSON.stringify(ret)
+           })
+        }
+        function requestNetwork() {
+           $.getJSON("http://125.70.9.193:8990/app/login",function(data){
+               console.log(JSON.stringify(data))
+           })
+        }
+        function toggleCutomEventListening() {
+            var listening = JsBridge.isListening({
+                name: "customEvent"
+            })
+            if (listening.result) {
+                JsBridge.removeEventListener({
+                    name: "customEvent"
+                })
+            } else {
+                JsBridge.addEventListener({
+                    name: "customEvent"
+                }, function (event) {
+                    JsBridge.toast({
+                        msg: JSON.stringify(event)
+                    })
+                })
+            }
+        }
+        JsBridge.init(function () {
+           var last =  window.localStorage.getItem("frame1")
+           JsBridge.toast({
+               msg: last+""
+           })
+            window.localStorage.setItem("frame1",  "" +new Date())
+        })
+
+    </script>
+</body>
+
+</html>
