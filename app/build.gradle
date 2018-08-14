@@ -26,6 +26,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
     implementation "gitbub.hotstu.labo:labo-tool:0.0.1"
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.7.1"
     implementation project(':lib')
     //implementation "gitbub.hotstu.naiue:lib:0.0.1"
 

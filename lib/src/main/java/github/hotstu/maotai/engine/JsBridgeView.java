@@ -30,7 +30,7 @@ import github.hotstu.maotai.provider.CoreFragmentViewModel;
 import github.hotstu.maotai.provider.IKeyPressAware;
 import github.hotstu.maotai.provider.Injection;
 import github.hotstu.maotai.provider.UIViewModel;
-import github.hotstu.naiue.widget.MOInsetFrameLayout;
+import github.hotstu.maotai.widget.MDInsetFrameLayout;
 
 import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_BACKPRESS;
 import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_KEYPRESS;
@@ -40,7 +40,7 @@ import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_KEYPRESS;
  * @author hglf
  * @since 2018/7/23
  */
-public class JsBridgeView extends MOInsetFrameLayout implements IKeyPressAware, LifecycleOwner {
+public class JsBridgeView extends MDInsetFrameLayout implements IKeyPressAware, LifecycleOwner {
     private static final String TAG = JsBridgeView.class.getSimpleName();
     private final WinParam winParam;
     private final LifecycleRegistry mLifecycleRegistry;
@@ -55,6 +55,7 @@ public class JsBridgeView extends MOInsetFrameLayout implements IKeyPressAware, 
         super(fragment.getUI());
         ui = fragment.getUI();
         mLifecycleRegistry = new LifecycleRegistry(this);
+        this.setFrameName(winParam.name);
         this.eventFilter = new EventFilter();
         this.winParam = winParam;
         //TODO 增加loading indicator
@@ -72,6 +73,9 @@ public class JsBridgeView extends MOInsetFrameLayout implements IKeyPressAware, 
         vm.getMdConfigLiveData().observe(this,  mdConfig -> {
             assert mdConfig != null;
             setBackgroundColor(mdConfig.getParsedColor());
+            if (mdConfig.userAgent != null) {
+                webView.getSettings().setUserAgentString(mdConfig.userAgent);
+            }
             webView.loadUrl(mdConfig.getRealPath(winParam.url));
             //webView.setFitsSystemWindows(mdConfig.translucentStatusbar);
         });
@@ -81,9 +85,12 @@ public class JsBridgeView extends MOInsetFrameLayout implements IKeyPressAware, 
     private void initWebView( ) {
         WebSettings settings = webView.getSettings();
         WebViewConfig.setWebSettings(getContext(), settings, getContext().getApplicationInfo().dataDir);
+        //允许跨域访问
+        settings.setAllowUniversalAccessFromFileURLs(true);
         WebViewConfig.removeJavascriptInterfaces(webView);
         WebViewConfig.setWebViewAllowDebug(false);
         WebViewConfig.setAcceptThirdPartyCookies(webView);
+        //settings.setUserAgentString();
         webView.setOnLongClickListener(null);
         webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
             //TODO handle download
@@ -96,7 +103,8 @@ public class JsBridgeView extends MOInsetFrameLayout implements IKeyPressAware, 
     }
 
     public String getFrameName() {
-        return (String) getTag(R.id.md_frame_name);
+        String ret = (String) getTag(R.id.md_frame_name);
+        return ret;
     }
 
     public WebView getWebView() {

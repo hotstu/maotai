@@ -29,4 +29,22 @@ public class ExampleUnitTest {
         System.out.println("getQuery-->"+uri.getQuery());
         System.out.println(new URI("file", "", "/android_asset/widget", null).toString());
     }
+
+    @Test
+    public void testJson()  {
+        String s = "javascript:_JSNativeBridge._handleMessageFromNative('{\"responseId\":\"cb_8_1532846768584\",\"data\":{\"values\":{\"ret\":\"[\\\"\\/sdcard\\/data\\/.push_deviceid\\\"]\",\"err\":\"null\"}}}')";
+        String ss = String.format("--%s--", s);
+        System.out.println(ss);
+    }
+
+    @Test
+    public void testEncode() {
+        String s = "a";
+        //String s = "\u00a0";
+        String ret = String.format("\\u%04x", (int) s.charAt(0));// --> \u00a0
+        System.out.println(ret);
+        System.out.println((int) s.charAt(0));
+        System.out.println("\u6c49");
+        System.out.println("\037");
+    }
 }

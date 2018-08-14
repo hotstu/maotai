@@ -22,7 +22,7 @@ public class MDConfig {
     public String backgroundColor = "#fff";
     public boolean translucentStatusbar = true;
     public String defaultSrc = "wgt:///page.html";
-
+    public transient String userAgent;
     public transient MDSourceType sourceType;
 
     public MDConfig(int sourceType) {
@@ -43,8 +43,14 @@ public class MDConfig {
     public String getRealPath(String path) {
         try {
             URI uri = URI.create(path);
-            if ("wgt".equals(uri.getScheme())) {
-                return new URI("file", "", sourceType.getSourcePath() + uri.getPath(), null).toString();
+            if (uri.getScheme() == null|| "wgt".equals(uri.getScheme())) {
+                String path1 = uri.getPath();
+                if(!path1.startsWith("/")) {
+                    path1 = "/" + path1;
+                }
+
+                URI file = new URI("file", "", sourceType.getSourcePath() + path1, null).normalize();
+                return file.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();

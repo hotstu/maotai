@@ -20,12 +20,14 @@ import io.reactivex.Observable;
  * @since 2018/8/6
  */
 public class UIViewModel extends AndroidViewModel {
+    private final UI activity;
     private MutableLiveData<MDConfig> mdConfigLiveData;
     private final Gson g;
 
     public UIViewModel(@NonNull Application application, UI activity) {
         super(application);
         g = new GsonBuilder().create();
+        this.activity = activity;
     }
 
     public MutableLiveData<MDConfig> getMdConfigLiveData() {
@@ -35,6 +37,7 @@ public class UIViewModel extends AndroidViewModel {
                 SharedPreferences sharedPreferences = getApplication().getSharedPreferences(MDConfig.TAG, Context.MODE_PRIVATE);
                 int soureType = sharedPreferences.getInt(MDConfig.TAG_SOURETYPE, 0);
                 MDConfig config = new MDConfig(soureType);
+                config.userAgent = activity.getCustomUserAgentString();
                 config.appendCustomSettings(getApplication(), g);
                 emitter.onNext(config);
             })

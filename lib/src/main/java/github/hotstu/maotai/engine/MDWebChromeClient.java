@@ -15,9 +15,12 @@ import github.hotstu.naiue.dialog.MODialogAction;
  * @since 2018/8/3
  */
 public class MDWebChromeClient extends WebChromeClientDelegate {
+    private WebChromeClient positiveDelegate;
     public MDWebChromeClient(WebChromeClient delegate) {
         super(delegate);
+        this.positiveDelegate = delegate;
     }
+
 
     /**
      * Tell the client to display a javascript alert dialog.  If the client
@@ -32,17 +35,22 @@ public class MDWebChromeClient extends WebChromeClientDelegate {
      */
     @Override
     public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-        new MODialog.MessageDialogBuilder(view.getContext())
-                .setMessage(message)
-                .addAction("确定", (dialog, index) -> {
-                    dialog.dismiss();
-                    result.confirm();
-                })
-                .show()
-                .setOnCancelListener(dialog -> {
-                    result.cancel();
-                });
-        return true;
+        if(positiveDelegate!= null && positiveDelegate.onJsAlert( view,  url,  message,  result)) {
+            return true;
+        } else {
+            new MODialog.MessageDialogBuilder(view.getContext())
+                    .setMessage(message)
+                    .addAction("确定", (dialog, index) -> {
+                        dialog.dismiss();
+                        result.confirm();
+                    })
+                    .show()
+                    .setOnCancelListener(dialog -> {
+                        result.cancel();
+                    });
+            return true;
+        }
+
     }
 
     /**
@@ -61,21 +69,26 @@ public class MDWebChromeClient extends WebChromeClientDelegate {
      */
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-        new MODialog.MessageDialogBuilder(view.getContext())
-                .setMessage(message)
-                .addAction(0,"取消", MODialogAction.ACTION_PROP_POSITIVE,(dialog, index) -> {
-                    dialog.dismiss();
-                    result.cancel();
-                })
-                .addAction(0,"确定", MODialogAction.ACTION_PROP_NEGATIVE,(dialog, index) -> {
-                    dialog.dismiss();
-                    result.confirm();
-                })
-                .show()
-                .setOnCancelListener(dialog -> {
-                    result.cancel();
-                });
-        return true;
+        if(positiveDelegate!= null && positiveDelegate.onJsConfirm( view,  url,  message,  result)) {
+            return true;
+        } else {
+            new MODialog.MessageDialogBuilder(view.getContext())
+                    .setMessage(message)
+                    .addAction(0,"取消", MODialogAction.ACTION_PROP_POSITIVE,(dialog, index) -> {
+                        dialog.dismiss();
+                        result.cancel();
+                    })
+                    .addAction(0,"确定", MODialogAction.ACTION_PROP_NEGATIVE,(dialog, index) -> {
+                        dialog.dismiss();
+                        result.confirm();
+                    })
+                    .show()
+                    .setOnCancelListener(dialog -> {
+                        result.cancel();
+                    });
+            return true;
+        }
+
     }
 
     /**
@@ -95,23 +108,24 @@ public class MDWebChromeClient extends WebChromeClientDelegate {
      */
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        MODialog.EditTextDialogBuilder builder = new MODialog.EditTextDialogBuilder(view.getContext());
-        builder.setTitle(message);
-        builder.setPlaceholder("请输入");
-        final EditText editText = builder.getEditText();
-        editText.setText(defaultValue);
-        builder.addAction("确定", (dialog, index) -> {
-            dialog.dismiss();
-            result.confirm(editText.getText().toString());
-        });
-        builder.show().setOnCancelListener(dialog -> {
-            result.cancel();
-        });
-        return true;
+        if(positiveDelegate!= null && positiveDelegate.onJsPrompt( view,  url,  message, defaultValue, result)) {
+            return true;
+        } else {
+            MODialog.EditTextDialogBuilder builder = new MODialog.EditTextDialogBuilder(view.getContext());
+            builder.setTitle(message);
+            builder.setPlaceholder("请输入");
+            final EditText editText = builder.getEditText();
+            editText.setText(defaultValue);
+            builder.addAction("确定", (dialog, index) -> {
+                dialog.dismiss();
+                result.confirm(editText.getText().toString());
+            });
+            builder.show().setOnCancelListener(dialog -> {
+                result.cancel();
+            });
+            return true;
+        }
+
 
     }
-
-
-
-
 }

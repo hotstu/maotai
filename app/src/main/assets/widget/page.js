@@ -80,7 +80,7 @@
                 if (eventHandler && typeof eventHandler == "function") {
                     var ret = false;
                     try {
-                        ret = eventHandler(event)
+                        ret = eventHandler(event.extra)
                     } catch (error) {
                         console.error(error)
                     }

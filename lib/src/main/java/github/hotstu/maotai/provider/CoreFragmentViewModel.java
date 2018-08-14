@@ -29,8 +29,8 @@ public class CoreFragmentViewModel extends AndroidViewModel {
     public MDJsBridgeBuilder getJSBridgeBuilder( ) {
         if (mBuilder == null) {
             mBuilder = new MDJsBridgeBuilder(fragment)
-                    .setWebChromeClient(new MDWebChromeClient(null))
-                    .setWebViewClient(new MDWebViewClient(fragment.getUI(), null));
+                    .setWebChromeClient(new MDWebChromeClient(fragment.getUI().getCustomWebChromeClient()))
+                    .setWebViewClient(new MDWebViewClient(fragment.getUI(), fragment.getUI().getCustomWebViewClient()));
             List<MDJsBridgeBuilder.JavaInterfaceFactory> factories = fragment.getUI().getJavaInterfaceFactory();
             if (factories != null) {
                 for (MDJsBridgeBuilder.JavaInterfaceFactory factory : factories) {
@@ -38,6 +38,8 @@ public class CoreFragmentViewModel extends AndroidViewModel {
                 }
             }
         }
+
         return mBuilder;
     }
+
 }

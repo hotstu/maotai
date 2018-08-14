@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,10 @@ public abstract class UI extends MOFragmentActivity {
     }
 
     public abstract List<MDJsBridgeBuilder.JavaInterfaceFactory> getJavaInterfaceFactory();
+    public abstract WebChromeClient getCustomWebChromeClient();
+    public abstract WebViewClient getCustomWebViewClient();
+    public abstract String getCustomUserAgentString();
+    public abstract String appVersion();
 
     public List<CoreFragment> getAllCoreFragment() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();

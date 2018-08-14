@@ -1,12 +1,15 @@
 package github.hotstu.maotai.engine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 
 import github.hotstu.maotai.UI;
 import github.hotstu.maotai.bean.WinParam;
+import github.hotstu.maotai.provider.ActivityResultObserver;
 import github.hotstu.naiue.arch.MOFragment;
 
 /**
@@ -21,6 +24,7 @@ public class CoreFragment extends MOFragment {
     public static final String ROOT_FRAME_TAG = "rootFrame";
     private WinParam winParam;
     private JsBridgeView container;
+    private SparseArray<ActivityResultObserver> observerSparseArray;
 
 
     public static CoreFragment newInstance(WinParam winParam) {
@@ -66,6 +70,20 @@ public class CoreFragment extends MOFragment {
         return container != null && container.onKeyPressed(keyCode, event);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (observerSparseArray != null && observerSparseArray.get(requestCode) != null) {
+            observerSparseArray.get(requestCode).onActivityResult(requestCode, resultCode, data);
+            observerSparseArray.put(requestCode, null);
+        }
+    }
+
+    public void registerActivityResultObserver(int requestCode, ActivityResultObserver observer) {
+        if (observerSparseArray == null) {
+            observerSparseArray = new SparseArray<>();
+        }
+        observerSparseArray.put(requestCode, observer);
+    }
 
     public boolean onBackPressed() {
         return container != null && container.onBackPressed();
@@ -93,6 +111,7 @@ public class CoreFragment extends MOFragment {
 
     @Override
     public void onDestroy() {
+        observerSparseArray = null;
         super.onDestroy();
     }
 }
