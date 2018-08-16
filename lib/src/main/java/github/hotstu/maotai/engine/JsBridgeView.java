@@ -67,9 +67,9 @@ public class JsBridgeView extends MDInsetFrameLayout implements IKeyPressAware, 
         initWebView();
         mLifecycleRegistry.markState(Lifecycle.State.CREATED);
         UIViewModel vm = ViewModelProviders.of(ui, Injection.getViewModelFactory(ui)).get(UIViewModel.class);
-        CoreFragmentViewModel fvm = ViewModelProviders.of( fragment, Injection.getViewModelFactory(ui,fragment))
+        CoreFragmentViewModel fvm = ViewModelProviders.of( fragment, Injection.getViewModelFactory(fragment))
                 .get(CoreFragmentViewModel.class);
-        jsBridge = fvm.getJSBridgeBuilder().setJsBridgeView(this).create();
+        jsBridge = Injection.getJSBridgeBuilder(fragment).setJsBridgeView(this).create();
         vm.getMdConfigLiveData().observe(this,  mdConfig -> {
             assert mdConfig != null;
             setBackgroundColor(mdConfig.getParsedColor());

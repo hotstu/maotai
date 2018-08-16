@@ -8,10 +8,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import github.hotstu.labo.rxfetch.LaboSchedulers;
-import github.hotstu.maotai.UI;
 import github.hotstu.maotai.engine.MDConfig;
 import io.reactivex.Observable;
 
@@ -20,14 +18,16 @@ import io.reactivex.Observable;
  * @since 2018/8/6
  */
 public class UIViewModel extends AndroidViewModel {
-    private final UI activity;
+    private final String ua;
+    private final int defaultSourceType;
     private MutableLiveData<MDConfig> mdConfigLiveData;
     private final Gson g;
 
-    public UIViewModel(@NonNull Application application, UI activity) {
+    public UIViewModel(@NonNull Application application, String ua, int defaultSourceType ) {
         super(application);
-        g = new GsonBuilder().create();
-        this.activity = activity;
+        g = Injection.getGson();
+        this.ua = ua;
+        this.defaultSourceType = defaultSourceType;
     }
 
     public MutableLiveData<MDConfig> getMdConfigLiveData() {
@@ -35,9 +35,9 @@ public class UIViewModel extends AndroidViewModel {
             mdConfigLiveData = new MutableLiveData<>();
             Observable.<MDConfig>create(emitter -> {
                 SharedPreferences sharedPreferences = getApplication().getSharedPreferences(MDConfig.TAG, Context.MODE_PRIVATE);
-                int soureType = sharedPreferences.getInt(MDConfig.TAG_SOURETYPE, 0);
+                int soureType = sharedPreferences.getInt(MDConfig.TAG_SOURETYPE, defaultSourceType);
                 MDConfig config = new MDConfig(soureType);
-                config.userAgent = activity.getCustomUserAgentString();
+                config.userAgent = ua;
                 config.appendCustomSettings(getApplication(), g);
                 emitter.onNext(config);
             })

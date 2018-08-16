@@ -69,6 +69,9 @@ public abstract class UI extends MOFragmentActivity {
     public abstract WebViewClient getCustomWebViewClient();
     public abstract String getCustomUserAgentString();
     public abstract String appVersion();
+    public int getDefaultSourceType() {
+        return 0;
+    }
 
     public List<CoreFragment> getAllCoreFragment() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
@@ -127,4 +130,6 @@ public abstract class UI extends MOFragmentActivity {
         }
 
     }
+
+
 }

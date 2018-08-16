@@ -20,7 +20,7 @@ public class ActivityScopeVMFactory extends ViewModelProvider.NewInstanceFactory
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(UIViewModel.class)) {
             //noinspection unchecked
-            return (T) new UIViewModel(activity.getApplication(), activity);
+            return (T) new UIViewModel(activity.getApplication(), activity.getCustomUserAgentString(), activity.getDefaultSourceType());
         } else
             throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
