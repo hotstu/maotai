@@ -112,6 +112,7 @@ public class CoreFragment extends MOFragment {
     @Override
     public void onDestroy() {
         observerSparseArray = null;
+        getContainer().destory();
         super.onDestroy();
     }
 }

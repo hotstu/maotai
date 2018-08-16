@@ -274,7 +274,9 @@ public class CoreFrame implements LifecycleObserver {
         }
         //指定了目标窗口
         if (isEmpty(frameName)) {
-            currentFragment.getContainer().execRawJS(script);
+            if (currentFragment.getContainer() != null) {
+                currentFragment.getContainer().execRawJS(script);
+            }
         } else {
             JsBridgeView childByName = currentFragment.getContainer().getChildByName(frameName);
             if (childByName != null) {
@@ -287,12 +289,7 @@ public class CoreFrame implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onViewDestoy() {
         Log.d(TAG, "JsBridgeView event" + currentJsBridgeView.getLifecycle().getCurrentState());
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onFragmentDestoy() {
-        Log.d(TAG, "onFragmentDestoy do clean");
-        fragment.getContainer().destory();
+        eventFilter.clear();
     }
 
     //region util method
