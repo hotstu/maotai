@@ -24,6 +24,10 @@ public abstract class UI extends MOFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UiOnCreate(savedInstanceState);
+    }
+
+    protected void UiOnCreate(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             UIViewModel vm = ViewModelProviders.of(this, Injection.getViewModelFactory(this)).get(UIViewModel.class);
             vm.getMdConfigLiveData().observe(this,  mdConfig -> {
