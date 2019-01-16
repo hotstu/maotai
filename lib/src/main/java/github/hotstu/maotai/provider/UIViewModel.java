@@ -1,15 +1,15 @@
 package github.hotstu.maotai.provider;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 
-import github.hotstu.labo.rxfetch.LaboSchedulers;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+import github.hotstu.labo.rxfetch.Transformers;
 import github.hotstu.maotai.engine.MDConfig;
 import io.reactivex.Observable;
 
@@ -41,7 +41,7 @@ public class UIViewModel extends AndroidViewModel {
                 config.appendCustomSettings(getApplication(), g);
                 emitter.onNext(config);
             })
-            .compose(LaboSchedulers.io_main_ob())
+            .compose(Transformers.io_main_ob())
             .subscribe(mdConfig -> {
                 mdConfigLiveData.setValue(mdConfig);
             }, Throwable::printStackTrace);

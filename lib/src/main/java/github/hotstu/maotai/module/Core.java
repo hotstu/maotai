@@ -1,6 +1,6 @@
 package github.hotstu.maotai.module;
 
-import android.arch.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleObserver;
 
 import github.hotstu.maotai.engine.CoreFragment;
 

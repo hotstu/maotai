@@ -2,7 +2,7 @@ package github.hotstu.maotai.engine;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
