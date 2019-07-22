@@ -9,6 +9,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenLocal()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -23,9 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven{
-            url uri("${userHome}/repo")//本地仓库 debug use
-        }
+        mavenLocal()
     }
 }
 
@@ -41,7 +41,7 @@ subprojects {
         }
     }
     if ("lib" == it.name) {
-        group = 'gitbub.hotstu.maotai'//发布到 bintray 的groupId号
+        group = 'github.hotstu.maotai'//发布到 bintray 的groupId号
         version = "1.0.0" // 发布到 bintray 的版本号
     }
 }

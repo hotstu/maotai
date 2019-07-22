@@ -23,11 +23,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation "gitbub.hotstu.labo:labo-tool:0.0.1"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "github.hotstu.labo:tool:1.0.0"
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.7.1"
     implementation project(':lib')
-    //implementation "gitbub.hotstu.naiue:lib:0.0.1"
+    //implementation "github.hotstu.naiue:lib:1.0.0"
 
 }
