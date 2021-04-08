@@ -5,8 +5,9 @@ import android.webkit.WebViewClient;
 
 import java.util.List;
 
-import github.hotstu.maotai.UI;
+import github.hotstu.maotai.engine.CoreFragment;
 import github.hotstu.maotai.engine.MDJsBridgeBuilder;
+import github.hotstu.naiue.arch.MOFragment;
 
 /**
  * @author hglf
@@ -37,5 +38,15 @@ public class MyUI extends UI {
     @Override
     public String appVersion() {
         return null;
+    }
+
+    @Override
+    public int getSourceType() {
+        return 1;
+    }
+
+    @Override
+    public void startFragment(CoreFragment fragment) {
+        super.startFragment((MOFragment) fragment);
     }
 }

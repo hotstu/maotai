@@ -7,7 +7,7 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 
-import github.hotstu.maotai.UI;
+import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.bean.WinParam;
 import github.hotstu.maotai.provider.ActivityResultObserver;
 import github.hotstu.naiue.arch.MOFragment;
@@ -41,8 +41,8 @@ public class CoreFragment extends MOFragment {
         ensureWinParams();
     }
 
-    public UI getUI() {
-        return (UI) getActivity();
+    public HybridUI getUI() {
+        return (HybridUI) getActivity();
     }
 
     @Override

@@ -36,10 +36,7 @@ public class UIViewModel extends AndroidViewModel {
             Observable.<MDConfig>create(emitter -> {
                 SharedPreferences sharedPreferences = getApplication().getSharedPreferences(MDConfig.TAG, Context.MODE_PRIVATE);
                 int soureType = sharedPreferences.getInt(MDConfig.TAG_SOURETYPE, defaultSourceType);
-                MDConfig config = new MDConfig(soureType);
-                config.userAgent = ua;
-                config.appendCustomSettings(getApplication(), g);
-                emitter.onNext(config);
+
             })
             .compose(Transformers.io_main_ob())
             .subscribe(mdConfig -> {

@@ -5,8 +5,9 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import github.hotstu.maotai.UI;
+import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.engine.CoreFragment;
+import github.hotstu.maotai.engine.MDConfig;
 import github.hotstu.maotai.engine.MDJsBridgeBuilder;
 import github.hotstu.maotai.engine.MDWebChromeClient;
 import github.hotstu.maotai.engine.MDWebViewClient;
@@ -19,15 +20,17 @@ public class Injection {
 
     private static Gson gson;
 
-    //activity scope
-    public static ActivityScopeVMFactory getViewModelFactory(UI activty) {
-        return new ActivityScopeVMFactory(activty);
+    public static MDConfig getMDConfig(CoreFragment fragment) {
+        MDConfig config = new MDConfig(fragment.getUI().getApplication(),fragment.getUI().getSourceType());
+        config.userAgent = fragment.getUI().getCustomUserAgentString();
+        return config;
+    }
+    public static MDConfig getMDConfig(HybridUI ui) {
+        MDConfig config = new MDConfig(ui.getApplication(),ui.getSourceType());
+        config.userAgent = ui.getCustomUserAgentString();
+        return config;
     }
 
-    //fragment scope
-    public static FragmentScopeVMFactory getViewModelFactory( CoreFragment fragment) {
-        return new FragmentScopeVMFactory(fragment.getUI().getApplication());
-    }
 
     public static Gson getGson() {
         if (gson == null) {
@@ -43,7 +46,7 @@ public class Injection {
     public static MDJsBridgeBuilder getJSBridgeBuilder(  CoreFragment fragment) {
             MDJsBridgeBuilder mBuilder = new MDJsBridgeBuilder(fragment)
                     .setWebChromeClient(new MDWebChromeClient(fragment.getUI().getCustomWebChromeClient()))
-                    .setWebViewClient(new MDWebViewClient(fragment.getUI(), fragment.getUI().getCustomWebViewClient()));
+                    .setWebViewClient(new MDWebViewClient(fragment.getActivity(), fragment.getUI().getCustomWebViewClient()));
             List<MDJsBridgeBuilder.JavaInterfaceFactory> factories = fragment.getUI().getJavaInterfaceFactory();
             if (factories != null) {
                 for (MDJsBridgeBuilder.JavaInterfaceFactory factory : factories) {

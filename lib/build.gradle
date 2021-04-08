@@ -36,10 +36,10 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
-    api "github.hotstu.naiue:lib:1.1.0"
+    api "github.hotstu.naiue:lib:1.0.0"
     api "github.hotstu.labo:jsbridge:1.0.0"
     api "github.hotstu.labo:rxfetch:1.0.0"
 }
 
-apply from: "../deployBintray.gradle"
-apply from: "../deployLocalMaven.gradle"
+//apply from: "../deployBintray.gradle"
+//apply from: "../deployLocalMaven.gradle"

@@ -1,5 +1,7 @@
 package github.hotstu.maotai.engine;
 
+import android.content.Context;
+
 /**
  * @author hglf
  * @since 2018/8/6
@@ -7,8 +9,7 @@ package github.hotstu.maotai.engine;
 public enum MDSourceType {
 
     ASSETS(0),
-    FOLDER_A(1),
-    FOLDER_B(2);
+    FOLDER(1);
 
     private static final String ASSET_PATH = "/android_asset/widget";
     private final int value;
@@ -17,15 +18,10 @@ public enum MDSourceType {
         this.value = i;
     }
 
-    public String getSourcePath() {
-        //TODO supprot other sourcefolder path;
+    public String getSourcePath(Context context) {
         switch (value) {
-            case 0:
-                return ASSET_PATH;
             case 1:
-                return ASSET_PATH;
-            case 2:
-                return ASSET_PATH;
+                return context.getExternalFilesDir("widget").getAbsolutePath();
             default:
                 return ASSET_PATH;
         }
@@ -33,12 +29,8 @@ public enum MDSourceType {
 
     public static MDSourceType fromValue(int value) {
         switch (value) {
-            case 0:
-                return MDSourceType.ASSETS;
             case 1:
-                return MDSourceType.FOLDER_A;
-            case 2:
-                return MDSourceType.FOLDER_B;
+                return MDSourceType.FOLDER;
             default:
                 return MDSourceType.ASSETS;
         }

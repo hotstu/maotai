@@ -3,9 +3,9 @@ package github.hotstu.maotai.engine;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,14 +22,11 @@ import github.hotstu.labo.jsbridge.core.NIMJsBridge;
 import github.hotstu.labo.jsbridge.util.JsUtil;
 import github.hotstu.labo.jsbridge.util.WebViewConfig;
 import github.hotstu.maotai.R;
-import github.hotstu.maotai.UI;
 import github.hotstu.maotai.bean.NativeEvent;
 import github.hotstu.maotai.bean.WinParam;
 import github.hotstu.maotai.module.CoreJSInterface;
-import github.hotstu.maotai.provider.CoreFragmentViewModel;
 import github.hotstu.maotai.provider.IKeyPressAware;
 import github.hotstu.maotai.provider.Injection;
-import github.hotstu.maotai.provider.UIViewModel;
 import github.hotstu.maotai.widget.MDInsetFrameLayout;
 
 import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_BACKPRESS;
@@ -44,7 +41,6 @@ public class JsBridgeView extends MDInsetFrameLayout implements IKeyPressAware, 
     private static final String TAG = JsBridgeView.class.getSimpleName();
     private final WinParam winParam;
     private final LifecycleRegistry mLifecycleRegistry;
-    private final UI ui;
     private WebView webView;
     private NIMJsBridge jsBridge;
     private CoreJSInterface jsInterface;
@@ -52,8 +48,7 @@ public class JsBridgeView extends MDInsetFrameLayout implements IKeyPressAware, 
 
 
     public JsBridgeView(@NonNull CoreFragment fragment, @NonNull WinParam winParam) {
-        super(fragment.getUI());
-        ui = fragment.getUI();
+        super(fragment.requireContext());
         mLifecycleRegistry = new LifecycleRegistry(this);
         this.setFrameName(winParam.name);
         this.eventFilter = new EventFilter();
@@ -66,19 +61,16 @@ public class JsBridgeView extends MDInsetFrameLayout implements IKeyPressAware, 
 
         initWebView();
         mLifecycleRegistry.markState(Lifecycle.State.CREATED);
-        UIViewModel vm = ViewModelProviders.of(ui, Injection.getViewModelFactory(ui)).get(UIViewModel.class);
-        CoreFragmentViewModel fvm = ViewModelProviders.of( fragment, Injection.getViewModelFactory(fragment))
-                .get(CoreFragmentViewModel.class);
+
         jsBridge = Injection.getJSBridgeBuilder(fragment).setJsBridgeView(this).create();
-        vm.getMdConfigLiveData().observe(this,  mdConfig -> {
-            assert mdConfig != null;
-            setBackgroundColor(mdConfig.getParsedColor());
-            if (mdConfig.userAgent != null) {
-                webView.getSettings().setUserAgentString(mdConfig.userAgent);
-            }
-            webView.loadUrl(mdConfig.getRealPath(winParam.url));
-            //webView.setFitsSystemWindows(mdConfig.translucentStatusbar);
-        });
+
+        MDConfig mdConfig = Injection.getMDConfig(fragment);
+
+        setBackgroundColor(mdConfig.getParsedColor());
+        if (mdConfig.userAgent != null) {
+            webView.getSettings().setUserAgentString(mdConfig.userAgent);
+        }
+        webView.loadUrl(mdConfig.getRealPath(winParam.url));
     }
 
 

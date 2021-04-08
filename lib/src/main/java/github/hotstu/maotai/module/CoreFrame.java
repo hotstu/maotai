@@ -3,6 +3,7 @@ package github.hotstu.maotai.module;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,7 +22,7 @@ import github.hotstu.labo.jsbridge.annotation.Param;
 import github.hotstu.labo.jsbridge.annotation.ParamCallback;
 import github.hotstu.labo.jsbridge.interact.ResponseCode;
 import github.hotstu.labo.jsbridge.interfaces.IJavaReplyToJsString;
-import github.hotstu.maotai.UI;
+import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.bean.AppInfo;
 import github.hotstu.maotai.bean.NativeEvent;
 import github.hotstu.maotai.bean.RectParam;
@@ -44,12 +45,10 @@ public class CoreFrame implements LifecycleObserver {
     private final JsBridgeView currentJsBridgeView;
     private final EventFilter eventFilter;
     private final Handler handler;
-    private final UI mContext;
 
 
     public CoreFrame(CoreFragment fragment, JsBridgeView view) {
         this.eventFilter = view.getEventFilter();
-        mContext = (UI) fragment.getActivity();
         this.fragment = fragment;
         this.currentJsBridgeView = view;
         handler = new Handler(Looper.getMainLooper());
@@ -105,7 +104,7 @@ public class CoreFrame implements LifecycleObserver {
         }
         //指定了目标窗口
         if (isEmpty(frameName)) {
-            if(currentFragment == fragment) {
+            if (currentFragment == fragment) {
                 return currentJsBridgeView.getPageParam();
             } else {
                 return currentFragment.getContainer().getPageParam();
@@ -122,27 +121,27 @@ public class CoreFrame implements LifecycleObserver {
 
     //region 窗口管理
     @JavaInterface("openWin")
-    public void openWin(@Param("name")String name, @Param("url")String url, @Param("pageParam")JSONObject pageParam) {
-        mContext.startFragment(CoreFragment.newInstance(new WinParam(name,url, pageParam)));
+    public void openWin(@Param("name") String name, @Param("url") String url, @Param("pageParam") JSONObject pageParam) {
+        fragment.getUI().startFragment(CoreFragment.newInstance(new WinParam(name, url, pageParam)));
     }
 
     @JavaInterface("closeWin")
-    public void closeWin(@Param("name")String name) {
+    public void closeWin(@Param("name") String name) {
         //TODO bug 当name为空时关闭当前页
         if (name == null || "".equals(name)) {
             name = fragment.getTagNmae();
         }
-        mContext.popBackStackInclusive(name);
+        fragment.getUI().popBackStackInclusive(name);
     }
 
     @JavaInterface("openFrame")
-    public void openFrame(@Param("name")String name, @Param("url")String url, @Param("rect")RectParam rect, @Param("pageParam")JSONObject pageParam) {
+    public void openFrame(@Param("name") String name, @Param("url") String url, @Param("rect") RectParam rect, @Param("pageParam") JSONObject pageParam) {
         if (name == null || "".equals(name)) {
-            Log.w(TAG, "openFrame with name=" + name+ ", use generated name instead");
+            Log.w(TAG, "openFrame with name=" + name + ", use generated name instead");
             name = "md_frame_" + MOViewHelper.generateViewId();
         }
         if (CoreFragment.ROOT_FRAME_TAG.equals(name)) {
-            Log.w(TAG, "openFrame with name=" + name+ ", use generated name instead");
+            Log.w(TAG, "openFrame with name=" + name + ", use generated name instead");
             name = "md_frame_" + MOViewHelper.generateViewId();
         }
 
@@ -159,10 +158,10 @@ public class CoreFrame implements LifecycleObserver {
         jsView.setBackgroundColor(Color.YELLOW);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         if (rect != null) {
-            layoutParams.height = rect.height>=0? MODisplayHelper.dp2px(mContext,rect.height):rect.height;
-            layoutParams.width = rect.width>=0?MODisplayHelper.dp2px(mContext,rect.width):rect.width;
-            layoutParams.topMargin = rect.top>=0?MODisplayHelper.dp2px(mContext,rect.top):rect.top;
-            layoutParams.leftMargin = rect.left>=0?MODisplayHelper.dp2px(mContext,rect.left):rect.left;
+            layoutParams.height = rect.height >= 0 ? MODisplayHelper.dp2px(fragment.requireContext(), rect.height) : rect.height;
+            layoutParams.width = rect.width >= 0 ? MODisplayHelper.dp2px(fragment.requireContext(), rect.width) : rect.width;
+            layoutParams.topMargin = rect.top >= 0 ? MODisplayHelper.dp2px(fragment.requireContext(), rect.top) : rect.top;
+            layoutParams.leftMargin = rect.left >= 0 ? MODisplayHelper.dp2px(fragment.requireContext(), rect.left) : rect.left;
         }
         jsView.setLayoutParams(layoutParams);
         view.addView(jsView);
@@ -172,22 +171,19 @@ public class CoreFrame implements LifecycleObserver {
 
     //region ui
     @JavaInterface("toast")
-    public void toast(@Param("msg")String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+    public void toast(@Param("msg") String msg) {
+        Toast.makeText(fragment.requireContext(), msg, Toast.LENGTH_LONG).show();
     }
 
     @JavaInterface("statusBarHeight")
     public int getStatusBarHeight() {
-        if (!mContext.isTranslucent()) {
-            return 0;
-        }
-        return  MODisplayHelper.px2dp(mContext, MOStatusBarHelper.getStatusbarHeight(mContext));
+        return MODisplayHelper.px2dp(fragment.requireContext(), MOStatusBarHelper.getStatusbarHeight(fragment.requireContext()));
     }
 
     @JavaInterface("getAppInfo")
     public AppInfo getAppInfo() {
         AppInfo info = new AppInfo();
-        info.appVersion = mContext.appVersion();
+        info.appVersion = fragment.getUI().appVersion();
         info.statusBarHeight = getStatusBarHeight();
         info.pageParam = getPageParam(null, null);
         return info;
@@ -197,7 +193,7 @@ public class CoreFrame implements LifecycleObserver {
     @JavaInterface("testAsync")
     public void testCB(@ParamCallback IJavaReplyToJsString cb) {
         final IJavaReplyToJsString ref = cb;
-        handler.postDelayed(() -> ref.replyToJs(ResponseCode.RES_SUCCESS,null, "hello,world"), 100);
+        handler.postDelayed(() -> ref.replyToJs(ResponseCode.RES_SUCCESS, null, "hello,world"), 100);
     }
 
     //region events
@@ -223,7 +219,7 @@ public class CoreFrame implements LifecycleObserver {
             @Param("frameName") String frameName,
             @Param("extra") JSONObject extra) {
         NativeEvent<JSONObject> customEvent = NativeEvent.createCustomEvent(eventName, extra);
-        Function3<UI, CoreFragment, JsBridgeView, Void> func = (ui, fragment, view) -> {
+        Function3<HybridUI, CoreFragment, JsBridgeView, Void> func = (ui, fragment, view) -> {
             view.getJsInterface().sendNativeEventToJS(customEvent);
             return null;
         };
@@ -293,8 +289,8 @@ public class CoreFrame implements LifecycleObserver {
     }
 
     //region util method
-    private Void runInAllScope(Function3<UI, CoreFragment, JsBridgeView, Void> func) {
-        UI activity = fragment.getUI();
+    private Void runInAllScope(Function3<HybridUI, CoreFragment, JsBridgeView, Void> func) {
+        HybridUI activity = fragment.getUI();
         List<CoreFragment> allCoreFragment = activity.getAllCoreFragment();
         try {
             for (int i = 0; i < allCoreFragment.size(); i++) {
@@ -312,8 +308,8 @@ public class CoreFrame implements LifecycleObserver {
     }
 
 
-    protected Void runInWindowScope(String winName, Function3<UI, CoreFragment, JsBridgeView, Void> func) {
-        UI activity = fragment.getUI();
+    protected Void runInWindowScope(String winName, Function3<HybridUI, CoreFragment, JsBridgeView, Void> func) {
+        HybridUI activity = fragment.getUI();
         CoreFragment targetFragment = activity.getCoreFragmentByTag(winName);
         if (targetFragment == null) {
             return null;
@@ -330,8 +326,8 @@ public class CoreFrame implements LifecycleObserver {
         return null;
     }
 
-    protected Void runInFrameScope(String winName, String frameName, Function3<UI, CoreFragment, JsBridgeView, Void> func) {
-        UI activity = fragment.getUI();
+    protected Void runInFrameScope(String winName, String frameName, Function3<HybridUI, CoreFragment, JsBridgeView, Void> func) {
+        HybridUI activity = fragment.getUI();
         CoreFragment targetFragment = activity.getCoreFragmentByTag(winName);
         if (targetFragment == null) {
             return null;

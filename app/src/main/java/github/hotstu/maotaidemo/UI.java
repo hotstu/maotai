@@ -1,26 +1,28 @@
-package github.hotstu.maotai;
+package github.hotstu.maotaidemo;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.bean.WinParam;
 import github.hotstu.maotai.engine.CoreFragment;
+import github.hotstu.maotai.engine.MDConfig;
 import github.hotstu.maotai.engine.MDJsBridgeBuilder;
 import github.hotstu.maotai.provider.Injection;
-import github.hotstu.maotai.provider.UIViewModel;
 import github.hotstu.naiue.arch.MOFragment;
 import github.hotstu.naiue.arch.MOFragmentActivity;
 
-public abstract class UI extends MOFragmentActivity {
+
+public abstract class UI extends MOFragmentActivity implements HybridUI {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +31,11 @@ public abstract class UI extends MOFragmentActivity {
 
     protected void UiOnCreate(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            UIViewModel vm = ViewModelProviders.of(this, Injection.getViewModelFactory(this)).get(UIViewModel.class);
-            vm.getMdConfigLiveData().observe(this,  mdConfig -> {
-                assert mdConfig != null;
-                WinParam p = new WinParam();
-                p.name = CoreFragment.ROOT_WINDOW_TAG;
-                p.url = mdConfig.defaultSrc;
-                startFragment(CoreFragment.newInstance(p));
-            });
+            MDConfig mdConfig = Injection.getMDConfig(this);
+            WinParam p = new WinParam();
+            p.name = CoreFragment.ROOT_WINDOW_TAG;
+            p.url = mdConfig.defaultSrc;
+            startFragment(CoreFragment.newInstance(p));
         }
     }
 

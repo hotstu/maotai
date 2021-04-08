@@ -1,10 +1,11 @@
 package github.hotstu.maotai.engine;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import github.hotstu.labo.jsbridge.core.NIMJsBridgeBuilder;
-import github.hotstu.maotai.UI;
 import github.hotstu.maotai.module.Core;
 import github.hotstu.maotai.module.CoreFrame;
 
@@ -17,7 +18,7 @@ public class MDJsBridgeBuilder extends NIMJsBridgeBuilder<MDJsBridgeBuilder> {
      * 简单的依赖注入生成JavaInterface
      */
     public interface JavaInterfaceFactory {
-        Object create(UI activity, CoreFragment fragment, JsBridgeView view);
+        Object create(Activity activity, CoreFragment fragment, JsBridgeView view);
     }
 
     /**
@@ -25,7 +26,7 @@ public class MDJsBridgeBuilder extends NIMJsBridgeBuilder<MDJsBridgeBuilder> {
      */
     private static class CoreInterfaceFactory implements JavaInterfaceFactory {
         @Override
-        public Object create(UI activity, CoreFragment fragment, JsBridgeView view) {
+        public Object create(Activity activity, CoreFragment fragment, JsBridgeView view) {
             return  new Core(fragment);
         }
     }
@@ -36,18 +37,18 @@ public class MDJsBridgeBuilder extends NIMJsBridgeBuilder<MDJsBridgeBuilder> {
     private static class FrameInterfaceFactory implements JavaInterfaceFactory {
 
         @Override
-        public Object create(UI activity, CoreFragment fragment, JsBridgeView view) {
+        public Object create(Activity activity, CoreFragment fragment, JsBridgeView view) {
             return new CoreFrame(fragment, view);
         }
     }
-    private final UI activity;
+    private final Activity activity;
     private final CoreFragment fragment;
     private final List<JavaInterfaceFactory> factoryList;
     private  JsBridgeView view;
 
     public MDJsBridgeBuilder(CoreFragment fragment) {
         this.fragment = fragment;
-        this.activity = fragment.getUI();
+        this.activity = fragment.getActivity();
         factoryList = new ArrayList<>();
         addInterfaceFacotry(new CoreInterfaceFactory());
         addInterfaceFacotry(new FrameInterfaceFactory());
