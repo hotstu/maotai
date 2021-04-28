@@ -131,7 +131,10 @@ public class CoreFrame implements LifecycleObserver {
         if (name == null || "".equals(name)) {
             name = fragment.getTagNmae();
         }
-        fragment.getUI().popBackStackInclusive(name);
+        final String tag = name;
+        handler.post(() -> {
+            fragment.getUI().popBackStackInclusive(tag);
+        });
     }
 
     @JavaInterface("openFrame")
