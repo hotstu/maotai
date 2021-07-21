@@ -9,8 +9,8 @@ import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import github.hotstu.naiue.util.MORelayInsetsToChild;
-import github.hotstu.naiue.widget.InsetsAwareView;
+import io.github.hotstu.moui.util.MORelayInsetsToChild;
+import io.github.hotstu.moui.widget.InsetsAwareView;
 
 
 /**

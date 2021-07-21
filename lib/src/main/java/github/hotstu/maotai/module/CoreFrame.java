@@ -17,11 +17,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import github.hotstu.labo.jsbridge.annotation.JavaInterface;
-import github.hotstu.labo.jsbridge.annotation.Param;
-import github.hotstu.labo.jsbridge.annotation.ParamCallback;
-import github.hotstu.labo.jsbridge.interact.ResponseCode;
-import github.hotstu.labo.jsbridge.interfaces.IJavaReplyToJsString;
 import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.bean.AppInfo;
 import github.hotstu.maotai.bean.NativeEvent;
@@ -30,9 +25,14 @@ import github.hotstu.maotai.bean.WinParam;
 import github.hotstu.maotai.engine.CoreFragment;
 import github.hotstu.maotai.engine.EventFilter;
 import github.hotstu.maotai.engine.JsBridgeView;
-import github.hotstu.naiue.util.MODisplayHelper;
-import github.hotstu.naiue.util.MOStatusBarHelper;
-import github.hotstu.naiue.util.MOViewHelper;
+import io.github.hotstu.jsbridge.annotation.JavaInterface;
+import io.github.hotstu.jsbridge.annotation.Param;
+import io.github.hotstu.jsbridge.annotation.ParamCallback;
+import io.github.hotstu.jsbridge.interact.ResponseCode;
+import io.github.hotstu.jsbridge.interfaces.IJavaReplyToJsString;
+import io.github.hotstu.moui.util.MODisplayHelper;
+import io.github.hotstu.moui.util.MOStatusBarHelper;
+import io.github.hotstu.moui.util.MOViewHelper;
 import io.reactivex.functions.Function3;
 
 /**

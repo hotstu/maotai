@@ -8,7 +8,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import github.hotstu.labo.jsbridge.core.WebViewClientDelegate;
+import io.github.hotstu.jsbridge.core.WebViewClientDelegate;
 
 /**
  * @author hglf

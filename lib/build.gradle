@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    buildToolsVersion "30.0.2"
+    compileSdkVersion 30
     compileOptions {
         sourceCompatibility "1.8"
         targetCompatibility "1.8"
     }
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -36,9 +37,9 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
-    api "github.hotstu.naiue:lib:1.0.0"
-    api "github.hotstu.labo:jsbridge:1.0.0"
-    api "github.hotstu.labo:rxfetch:1.0.0"
+    api "io.github.hotstu.moui:lib:1.0.0-SNAPSHOT"
+    api "io.github.hotstu.jsbridge:lib:1.0.0"
+    api "io.github.hotstu.rxfetch:lib:1.0.0"
 }
 
 //apply from: "../deployBintray.gradle"

@@ -4,7 +4,8 @@ import android.view.KeyEvent;
 
 import org.json.JSONObject;
 
-import github.hotstu.labo.jsbridge.annotation.Param;
+import io.github.hotstu.jsbridge.annotation.Param;
+
 
 /**
  * @author hglf

@@ -7,7 +7,7 @@ import java.util.List;
 
 import github.hotstu.maotai.engine.CoreFragment;
 import github.hotstu.maotai.engine.MDJsBridgeBuilder;
-import github.hotstu.naiue.arch.MOFragment;
+import io.github.hotstu.moui.arch.MOFragment;
 
 /**
  * @author hglf
@@ -42,7 +42,7 @@ public class MyUI extends UI {
 
     @Override
     public int getSourceType() {
-        return 1;
+        return 0;
     }
 
     @Override

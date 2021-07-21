@@ -18,9 +18,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.hotstu.labo.jsbridge.core.NIMJsBridge;
-import github.hotstu.labo.jsbridge.util.JsUtil;
-import github.hotstu.labo.jsbridge.util.WebViewConfig;
 import github.hotstu.maotai.R;
 import github.hotstu.maotai.bean.NativeEvent;
 import github.hotstu.maotai.bean.WinParam;
@@ -28,6 +25,9 @@ import github.hotstu.maotai.module.CoreJSInterface;
 import github.hotstu.maotai.provider.IKeyPressAware;
 import github.hotstu.maotai.provider.Injection;
 import github.hotstu.maotai.widget.MDInsetFrameLayout;
+import io.github.hotstu.jsbridge.core.NIMJsBridge;
+import io.github.hotstu.jsbridge.util.JsUtil;
+import io.github.hotstu.jsbridge.util.WebViewConfig;
 
 import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_BACKPRESS;
 import static github.hotstu.maotai.bean.NativeEvent.BULDIN_EVENT_KEYPRESS;

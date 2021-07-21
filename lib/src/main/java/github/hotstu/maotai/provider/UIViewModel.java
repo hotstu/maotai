@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import github.hotstu.labo.rxfetch.Transformers;
 import github.hotstu.maotai.engine.MDConfig;
+import io.github.hotstu.rxfetch.RxTransformers;
 import io.reactivex.Observable;
 
 /**
@@ -38,7 +38,7 @@ public class UIViewModel extends AndroidViewModel {
                 int soureType = sharedPreferences.getInt(MDConfig.TAG_SOURETYPE, defaultSourceType);
 
             })
-            .compose(Transformers.io_main_ob())
+            .compose(RxTransformers.io_main_ob())
             .subscribe(mdConfig -> {
                 mdConfigLiveData.setValue(mdConfig);
             }, Throwable::printStackTrace);

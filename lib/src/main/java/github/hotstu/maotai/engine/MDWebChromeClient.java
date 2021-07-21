@@ -6,9 +6,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.EditText;
 
-import github.hotstu.labo.jsbridge.core.WebChromeClientDelegate;
-import github.hotstu.naiue.dialog.MODialog;
-import github.hotstu.naiue.dialog.MODialogAction;
+import io.github.hotstu.jsbridge.core.WebChromeClientDelegate;
+import io.github.hotstu.moui.dialog.MODialog;
+import io.github.hotstu.moui.dialog.MODialogAction;
+
 
 /**
  * @author hglf

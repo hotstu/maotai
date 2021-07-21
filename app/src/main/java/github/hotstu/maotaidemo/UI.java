@@ -18,8 +18,8 @@ import github.hotstu.maotai.engine.CoreFragment;
 import github.hotstu.maotai.engine.MDConfig;
 import github.hotstu.maotai.engine.MDJsBridgeBuilder;
 import github.hotstu.maotai.provider.Injection;
-import github.hotstu.naiue.arch.MOFragment;
-import github.hotstu.naiue.arch.MOFragmentActivity;
+import io.github.hotstu.moui.arch.MOFragment;
+import io.github.hotstu.moui.arch.MOFragmentActivity;
 
 
 public abstract class UI extends MOFragmentActivity implements HybridUI {

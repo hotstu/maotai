@@ -10,7 +10,7 @@ import android.view.View;
 import github.hotstu.maotai.HybridUI;
 import github.hotstu.maotai.bean.WinParam;
 import github.hotstu.maotai.provider.ActivityResultObserver;
-import github.hotstu.naiue.arch.MOFragment;
+import io.github.hotstu.moui.arch.MOFragment;
 
 /**
  * 一个Fragment包含一个root Frame，称为一个Window，这个和android里的window没有关系，是一个自定义的概念

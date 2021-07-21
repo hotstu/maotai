@@ -5,9 +5,9 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.hotstu.labo.jsbridge.core.NIMJsBridgeBuilder;
 import github.hotstu.maotai.module.Core;
 import github.hotstu.maotai.module.CoreFrame;
+import io.github.hotstu.jsbridge.core.NIMJsBridgeBuilder;
 
 /**
  * @author hglf

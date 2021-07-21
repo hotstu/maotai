@@ -1,9 +1,9 @@
 package github.hotstu.maotai.module;
 
-import github.hotstu.labo.jsbridge.annotation.JSInterface;
-import github.hotstu.labo.jsbridge.annotation.Param;
-import github.hotstu.labo.jsbridge.interfaces.InvocationFuture;
 import github.hotstu.maotai.bean.NativeEvent;
+import io.github.hotstu.jsbridge.annotation.JSInterface;
+import io.github.hotstu.jsbridge.annotation.Param;
+import io.github.hotstu.jsbridge.interfaces.InvocationFuture;
 
 /**
  * @author hglf
