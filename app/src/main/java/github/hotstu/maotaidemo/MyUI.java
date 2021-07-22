@@ -5,8 +5,8 @@ import android.webkit.WebViewClient;
 
 import java.util.List;
 
-import github.hotstu.maotai.engine.CoreFragment;
-import github.hotstu.maotai.engine.MDJsBridgeBuilder;
+import io.github.hotstu.maotai.engine.CoreFragment;
+import io.github.hotstu.maotai.engine.MDJsBridgeBuilder;
 import io.github.hotstu.moui.arch.MOFragment;
 
 /**

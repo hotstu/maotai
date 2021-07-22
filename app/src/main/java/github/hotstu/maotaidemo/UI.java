@@ -12,12 +12,12 @@ import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.hotstu.maotai.HybridUI;
-import github.hotstu.maotai.bean.WinParam;
-import github.hotstu.maotai.engine.CoreFragment;
-import github.hotstu.maotai.engine.MDConfig;
-import github.hotstu.maotai.engine.MDJsBridgeBuilder;
-import github.hotstu.maotai.provider.Injection;
+import io.github.hotstu.maotai.HybridUI;
+import io.github.hotstu.maotai.bean.WinParam;
+import io.github.hotstu.maotai.engine.CoreFragment;
+import io.github.hotstu.maotai.engine.MDConfig;
+import io.github.hotstu.maotai.engine.MDJsBridgeBuilder;
+import io.github.hotstu.maotai.provider.Injection;
 import io.github.hotstu.moui.arch.MOFragment;
 import io.github.hotstu.moui.arch.MOFragmentActivity;
 

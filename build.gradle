@@ -27,23 +27,6 @@ allprojects {
     }
 }
 
-subprojects {
-    configurations.all {
-        resolutionStrategy {
-            force "com.android.support:recyclerview-v7:$SUPPORT_VERSION"
-            force "com.android.support:appcompat-v7:$SUPPORT_VERSION"
-            force "com.android.support:design:$SUPPORT_VERSION"
-            force "com.android.support:support-vector-drawable:$SUPPORT_VERSION"
-            force "com.android.support:animated-vector-drawable:$SUPPORT_VERSION"
-            force "android.arch.lifecycle:runtime:1.1.1"
-        }
-    }
-    if ("lib" == it.name) {
-        group = 'github.hotstu.maotai'//发布到 bintray 的groupId号
-        version = "1.0.0" // 发布到 bintray 的版本号
-    }
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
